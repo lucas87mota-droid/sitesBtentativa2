@@ -1,11 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  background: #FDF8F0;
+  font-family: Georgia, 'Times New Roman', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.card {
+  background: #fffdf7;
+  border: 1px solid #e8c96a;
+  border-radius: 20px;
+  padding: 2.5rem 2.75rem;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 6px 40px rgba(180,120,10,0.10);
+}
+
+.badge {
+  display: inline-block;
+  background: #FEF3D0;
+  color: #7a4f08;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid #f0c84a;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #3d2800;
+  margin-bottom: 0.4rem;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #9a7a45;
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+}
+
+.divider {
+  height: 1px;
+  background: #f0c84a;
+  opacity: 0.4;
+  margin: 1.5rem 0;
+}
+
+.section-label {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b8892a;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Stars: CSS-only reverse trick ── */
+.stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.stars input[type="radio"] { display: none; }
+
+.stars label {
+  font-size: 34px;
+  color: #e8d5b0;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+/* hover: highlight this and all after (which are before in DOM due to reverse) */
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input:checked ~ label {
+  color: #f5b429;
+  transform: scale(1.12);
+}
+
+.star-hint {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #c4993a;
+  font-style: italic;
+  min-height: 18px;
+  margin-bottom: 0.25rem;
+}
+
+/* ── Choices: checkbox styled ── */
+.choices { display: flex; flex-direction: column; gap: 8px; }
+
+.choices input[type="checkbox"] { display: none; }
+
+.choices label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border: 1.5px solid #edd8a0;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #fffdf5;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #5c3d0a;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.choices label:hover { background: #fef6dc; border-color: #e0b840; }
+
+.choices input:checked + label {
+  background: #fef3c4;
+  border-color: #d4a017;
+  color: #3d2800;
+  font-weight: bold;
+}
+
+.choice-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: #fde68a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.choices input:checked + label .choice-icon { background: #f5b429; }
+
+/* ── Textarea ── */
+textarea {
+  width: 100%;
+  min-height: 100px;
+  border: 1.5px solid #edd8a0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #3d2800;
+  background: #fffdf5;
+  resize: vertical;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+textarea::placeholder { color: #c4a86a; }
+textarea:focus { border-color: #d4a017; }
+
+/* ── Submit ── */
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #f0a800;
+  color: #3d2000;
+  border: none;
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(212,144,0,0.28);
+  transition: background 0.15s, transform 0.1s;
+  text-align: center;
+}
+
+.submit-btn:hover { background: #e09010; transform: translateY(-1px); }
+.submit-btn:active { transform: scale(0.98); }
+</style>
 </head>
 <body>
-    
+
+<div class="card">
+
+  <div class="badge">★ Sua opinião importa</div>
+  <h1>Como foi sua experiência?</h1>
+  <p class="subtitle">Leva menos de 1 minuto. Sua resposta nos ajuda a melhorar.</p>
+
+  <form action="#" method="post">
+
+    <!-- Stars -->
+    <div class="section-label">Avaliação geral</div>
+    <div class="stars">
+      <input type="radio" name="rating" id="s5" value="5">
+      <label for="s5" title="Excelente">★</label>
+      <input type="radio" name="rating" id="s4" value="4">
+      <label for="s4" title="Bom">★</label>
+      <input type="radio" name="rating" id="s3" value="3">
+      <label for="s3" title="Regular">★</label>
+      <input type="radio" name="rating" id="s2" value="2">
+      <label for="s2" title="Ruim">★</label>
+      <input type="radio" name="rating" id="s1" value="1">
+      <label for="s1" title="Péssimo">★</label>
+    </div>
+    <p class="star-hint">Clique em uma estrela para avaliar</p>
+
+    <div class="divider"></div>
+
+    <!-- Multiple choice -->
+    <div class="section-label">O que mais te agradou?</div>
+    <div class="choices">
+      <input type="checkbox" name="choice" id="c1" value="atendimento">
+      <label for="c1"><span class="choice-icon">🤝</span> Atendimento e suporte</label>
+
+      <input type="checkbox" name="choice" id="c2" value="qualidade">
+      <label for="c2"><span class="choice-icon">💎</span> Qualidade do produto</label>
+
+      <input type="checkbox" name="choice" id="c3" value="rapidez">
+      <label for="c3"><span class="choice-icon">⚡</span> Rapidez na entrega</label>
+
+      <input type="checkbox" name="choice" id="c4" value="preco">
+      <label for="c4"><span class="choice-icon">🏷️</span> Custo-benefício</label>
+
+      <input type="checkbox" name="choice" id="c5" value="experiencia">
+      <label for="c5"><span class="choice-icon">✨</span> Experiência geral</label>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Comment -->
+    <div class="section-label">Comentário livre</div>
+    <textarea name="comment" placeholder="Sugestões, elogios ou críticas são bem-vindos!"></textarea>
+
+    <div class="divider"></div>
+
+    <button type="submit" class="submit-btn">Enviar feedback →</button>
+
+  </form>
+
+</div>
+
 </body>
 </html>
